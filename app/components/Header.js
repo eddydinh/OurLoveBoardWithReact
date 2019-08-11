@@ -14,15 +14,13 @@ export default class Header extends Component {
   };
 
   render() {
+    
+   
     return (
-      <header>
-        <h1>todos</h1>
-        <TodoTextInput
-          newTodo
-          onSave={this.handleSave}
-          placeholder="What needs to be done?"
-        />
-      </header>
+      <div style={{background:'#FFB9B7',height: 100 + 'px'}}>
+        <h1>our love board</h1>
+        
+      </div>
     );
   }
 }

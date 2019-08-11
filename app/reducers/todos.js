@@ -3,7 +3,7 @@ import * as ActionTypes from '../constants/ActionTypes';
 const initialState = [{
   text: 'Use Redux',
   completed: false,
-  id: 0
+  id: 0,
 }];
 
 const actionsMap = {

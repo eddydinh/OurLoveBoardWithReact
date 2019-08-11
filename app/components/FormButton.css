@@ -1,0 +1,20 @@
+.formButton{
+    width:100%;
+    background: #ff5d5d;
+    text-align: center;
+    height:70px;
+    margin-top:50px;
+    cursor: pointer;
+    
+}
+.formButton h2{
+  position: absolute;
+  width: 100%;
+  font-size: 30px;
+  font-weight: 100;
+  text-align: center;
+  color: white;
+}
+.formButton:hover{
+    background:#d34c4c;
+}

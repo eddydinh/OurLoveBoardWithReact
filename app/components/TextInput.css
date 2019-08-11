@@ -1,0 +1,42 @@
+
+.email::placeholder {
+
+    background-image: url(/img/LoginEmailIcon.png);
+    background-repeat: no-repeat;
+    background-size: 25px 15px;
+    background-position: 5px 0px;
+    
+    
+
+}
+
+
+.password::placeholder {
+
+    background-image: url(/img/LoginPasswordIcon.png);
+    background-repeat: no-repeat;
+    background-size: 18px 15px;
+    background-position: 8px 0px;
+    
+    
+
+}
+
+.tab{
+    text-align: center;
+    margin-top:20px;
+}
+.inputText{
+    border: 2px solid gray;
+    border-radius: 10px;
+    background: none;
+    height: 30px;
+    width: 200px;
+    text-align: 10px;
+}
+
+
+.inputText:focus {
+    border-color: #FF7964;
+    box-shadow: inset 0 1px 1px #FF7964, 0 0 8px rgba(255, 0, 0, 0.6);
+}

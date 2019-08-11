@@ -23,3 +23,7 @@ export function completeAll() {
 export function clearCompleted() {
   return { type: types.CLEAR_COMPLETED };
 }
+export function changeTab(tabName) {
+  return { type: types.CHANGE_TAB, tabName };
+}
+
