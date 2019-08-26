@@ -37,17 +37,17 @@
     /* Safari 4.0 - 8.0 */
     -webkit-animation-duration: 0.5s;
     /* Safari 4.0 - 8.0 */
-    -webkit-animation-fill-mode: forwards;
+  
 
     animation-name: moveforward;
     animation-duration: 0.5s;
-    animation-fill-mode: forwards;
+
 }
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes moveforward {
     from {
-        left: 0px;
+        left: 0;
     }
 
     to {
@@ -58,7 +58,7 @@
 /* Standard syntax */
 @keyframes moveforward {
     from {
-        left: 0px;
+        left: 0;
     }
 
     to {
@@ -72,11 +72,11 @@
     /* Safari 4.0 - 8.0 */
     -webkit-animation-duration: 0.5s;
     /* Safari 4.0 - 8.0 */
-    -webkit-animation-fill-mode: forwards;
+   
 
     animation-name: movebackward;
     animation-duration: 0.5s;
-    animation-fill-mode: forwards;
+
 }
 
 /* Safari 4.0 - 8.0 */
@@ -86,7 +86,7 @@
     }
 
     to {
-        left: 0px;
+        left: 0;
     }
 }
 
@@ -97,6 +97,6 @@
     }
 
     to {
-        left: 0px;
+        left: 0;
     }
 }

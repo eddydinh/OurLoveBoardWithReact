@@ -1,20 +1,23 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component} from 'react';
+import PropTypes from 'prop-types';
 import style from './FormButton.css'
-export default class FormCheckBox extends Component {
+export default class FormButton extends Component {
     
-       static propTypes = {
-    
-    
-    currentTabName: PropTypes.string.isRequired
-  };
+
     
       render() {
           
-          const {currentTabName} = this.props
+          const {currentTabName,onclick, disabled} = this.props
           
           return (
-              <div className={style.formButton}><h2>{currentTabName} > </h2></div>
+              <button type = "submit" disabled={disabled} className={style.formButton} onClick = {(e)=>{onclick(e);}}>{currentTabName} ></button>
             );
       }
 }
+FormButton.propTypes ={
+    
+    
+    currentTabName: PropTypes.string.isRequired,
+    onclick: PropTypes.func.isRequired
+  }
     

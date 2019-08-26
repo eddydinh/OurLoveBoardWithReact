@@ -1,24 +1,37 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component} from 'react';
+import PropTypes from 'prop-types';
 import style from './TabBar.css';
 import TabButton from './TabButton.js'
+import * as TabBarConstants from '../constants/TabBarConstants.js'
+
+  
 export default class TabBar extends Component {
     
     
-     static propTypes = {
-    
-    changeTab: PropTypes.func.isRequired
-  };
+     
     
     
       render() {
-          
-         
+         let styleInlineSignup = new Object();
+         let styleInlineLogIn = new Object();
+         let styleInlineFloatBar = new Object();
+         const {currentTabName} = this.props;
         
+         
+         if(currentTabName == TabBarConstants.LOG_IN){
+            styleInlineLogIn.color = "#ff5d5d";
+            styleInlineFloatBar.left = 0;
+         }else{
+             styleInlineSignup.color = "#ff5d5d";
+             styleInlineFloatBar.left= 51 + '%';
+          
+         }
+          
           return (   <div className={style.tabBar}>
           
-          <TabButton onclick = {(event,tabName)=>{this.tabButtonOnClick(event,tabName)}}  as={"Login"}/>
-          <TabButton onclick ={(event,tabName)=>{this.tabButtonOnClick(event,tabName)}}   as={"Signup"}/>
-          <div className={style.bottomBorder}></div>
+          <TabButton onclick = {(event,tabName)=>{this.tabButtonOnClick(event,tabName)}} styleInline={styleInlineLogIn} as={TabBarConstants.LOG_IN}/>
+          <TabButton onclick ={(event,tabName)=>{this.tabButtonOnClick(event,tabName)}} styleInline={styleInlineSignup}   as={TabBarConstants.SIGN_UP}/>
+          <div style={styleInlineFloatBar} className={style.bottomBorder}></div>
           
           
           </div>);
@@ -35,7 +48,7 @@ export default class TabBar extends Component {
               tabBtns[i].style.color = "gray";
           }
           event.target.style.color = "#ff5d5d";
-          if(tabName == "Login"){
+          if(tabName == TabBarConstants.LOG_IN){
                bottomBorder.classList.remove(style.moveforward);
                bottomBorder.classList.add(style.movebackward);
             
@@ -47,4 +60,8 @@ export default class TabBar extends Component {
           
       }
 }
-    
+TabBar.propTypes = {
+
+    changeTab: PropTypes.func.isRequired,
+    currentTabName: PropTypes.string.isRequired
+}

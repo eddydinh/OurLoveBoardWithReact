@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component} from 'react';
 import style from './FormCheckBox.css'
 export default class FormCheckBox extends Component {
       render() {

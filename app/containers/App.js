@@ -1,36 +1,66 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component} from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import MainLogin from '../components/MainLogin';
-import * as TodoActions from '../actions/todos';
+import * as TodoActions from '../actions/actions';
 import style from './App.css';
-
+import HomePage from '../components/HomePage';
+import PasswordForgetPage  from '../components/PasswordForget';
+import { withFirebase } from '../components/Firebase';
 @connect(
   state => ({
-    todos: state.todos,
     reducers: state.reducers
+    
   }),
   dispatch => ({
     actions: bindActionCreators(TodoActions, dispatch)
   })
 )
-export default class App extends Component {
+class App extends Component {
 
-  static propTypes = {
-    todos: PropTypes.array.isRequired,
-    reducers: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
-  };
-
+  
+  componentDidMount() {
+    const {actions,reducers} = this.props;
+    this.listener = this.props.firebase.auth.onAuthStateChanged(
+      authUser => {
+        authUser
+          ? actions.changeAuth({authUser})
+          : actions.changeAuth(null);
+          
+      },
+    );
+  }
+  componentWillUnmount() {
+    this.listener();
+  }
+    
+  RenderMainSection (){
+      const {reducers,actions} = this.props;
+      if(reducers.isForgotPassword) return (<PasswordForgetPage/>);
+      else if(reducers.authUser) return(<Home /> );
+      else return(<LandingPage  changeTab = {actions.changeTab}  currentTabName = {reducers.tab} />)
+  }    
   render() {
-    const { todos, actions,reducers} = this.props;
-   console.log(this.props)
+
+     
     return (
+
       <div className={style.normal}>
-        <Header addTodo={actions.addTodo} />
-        <MainLogin changeTab = {actions.changeTab} currentTabName = {reducers.tab}/>
+        <Header />
+        {this.RenderMainSection()}
+        
       </div>
+            
     );
   }
 }
+
+const LandingPage = (props)=>(<MainLogin changeTab={props.changeTab} currentTabName= {props.currentTabName}/>);
+
+const Home = ()=>(<HomePage />);
+
+export default withFirebase(App);
+
+

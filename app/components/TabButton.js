@@ -1,21 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component} from 'react';
+import PropTypes from 'prop-types';
 import style from './TabBar.css';
 export default class TabButton extends Component {
     
-     static propTypes = {
-
-         as: PropTypes.string.isRequired,
-         onclick: PropTypes.func.isRequired,
-      
-
-     };
-
       
     
       render() {
-          const {as, onclick} = this.props;
-          let styleInline ={};
-          if (as==="Login") styleInline.color = "#ff5d5d";
+          const {as, onclick, styleInline} = this.props;
+          
           return(
               
               <div className={style.tabButton} style={styleInline} onClick={(e)=>{onclick(e,as)}}>{as}</div>
@@ -25,5 +17,12 @@ export default class TabButton extends Component {
           }
       
       }
+TabButton.propTypes ={
 
+         as: PropTypes.string.isRequired,
+         onclick: PropTypes.func.isRequired,
+         styleInline: PropTypes.object.isRequired,
+      
+
+     }
     

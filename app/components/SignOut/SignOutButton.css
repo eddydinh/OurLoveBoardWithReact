@@ -1,4 +1,4 @@
-.formButton {
+.signOutButton {
     width: 100%;
     background: #ff5d5d;
     text-align: center;
@@ -12,13 +12,7 @@
 
 }
 
-.formButton:hover {
+.signOutButton:hover {
     background: #d34c4c;
 }
 
-.formButton:disabled,
-.formButton[disabled] {
-
-    background-color: #cccccc;
-    color: #666666;
-}
