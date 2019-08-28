@@ -1,0 +1,9 @@
+.editButton{
+    display: inline-block;
+    position: absolute;
+    left:38%;
+    top:130px;
+}
+.editButton:hover{
+    cursor: pointer;
+}

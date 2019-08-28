@@ -1,0 +1,30 @@
+.header{
+    font-size:15px;
+}
+.inputText{
+    width:150px;
+}
+.submitButton{
+    background: #ff5d5d;
+    text-align: center;
+    color:white;
+    margin: 10px 0 0 10px;
+    border-radius: 10%;
+    width:50px;
+    display: inline-block;
+    font-size:13px;
+
+}
+
+.submitButton:hover{
+    background: #d34c4c;
+    cursor: pointer;
+
+}
+
+.submitButton:disabled,
+.submitButton[disabled] {
+
+    background-color: #cccccc;
+    color: #666666;
+}

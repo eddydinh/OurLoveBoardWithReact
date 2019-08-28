@@ -12,5 +12,11 @@ export function changeIsForgotPassword(isForgotPassword) {
   return { type: types.IS_FP, isForgotPassword};
 }
 
+export function changeUserName(userName) {
+  return { type: types.CHANGE_USER_NAME, userName};
+}
+
+
+
 
 

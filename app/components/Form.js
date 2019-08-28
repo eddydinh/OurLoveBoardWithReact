@@ -29,14 +29,27 @@ class Form extends Component {
               password
           } = this.state;
            
-          const {currentTabName, firebase} = this.props;
+    
+           
+          const {currentTabName, firebase,changeUserName} = this.props;
           
-          if (currentTabName == TabBarConstants.SIGN_UP){
+          if (currentTabName == TabBarConstants.SIGN_UP) {
               firebase.doCreateUserWithEmailAndPassword(email, password)
                   .then(authUser => {
+                      // Create a user in your Firebase realtime database
+                      return firebase
+                          .user(authUser.user.uid)
+                          .set({
+                              email,
+                          });
+                  })
+                  .then(() => {
                       this.setState({ ...INITIAL_STATE
                       });
-                     
+                      
+                      changeUserName(email);
+                    
+
 
                   })
                   .catch(error => {
@@ -45,13 +58,23 @@ class Form extends Component {
                       });
                   });
 
-              }
+          }
               else {
                   firebase
                       .doSignInWithEmailAndPassword(email, password)
-                      .then(() => {
+                      .then(authUser => {
                           this.setState({ ...INITIAL_STATE
                           });
+                       
+                       const userId = authUser.user.uid;
+                      
+                      return firebase.user(userId).once('value').then((snapshot) => {
+                          
+                          const username = (snapshot.val() && snapshot.val().username) || (snapshot.val() && snapshot.val().email)|| 'Anonymous';
+                          
+                          changeUserName(username);
+                          
+                      });
                           
                       })
                       .catch(error => {

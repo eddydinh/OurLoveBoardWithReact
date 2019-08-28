@@ -1,0 +1,13 @@
+.coupleBar{
+    width:100%;
+    border: 1px solid black;
+    height:100px;
+}
+.coupleBar th {
+    padding: 0 10px;
+    width:50%;
+
+}
+.coupleBar th:nth-child(1){
+     border-right: 1px solid;
+}

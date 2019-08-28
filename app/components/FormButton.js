@@ -14,10 +14,9 @@ export default class FormButton extends Component {
             );
       }
 }
-FormButton.propTypes ={
-    
-    
-    currentTabName: PropTypes.string.isRequired,
-    onclick: PropTypes.func.isRequired
-  }
-    
+    FormButton.propTypes ={
+        
+        currentTabName: PropTypes.string.isRequired,
+        onclick: PropTypes.func.isRequired
+        
+      }

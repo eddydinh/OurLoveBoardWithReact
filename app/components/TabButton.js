@@ -17,12 +17,11 @@ export default class TabButton extends Component {
           }
       
       }
-TabButton.propTypes ={
+    TabButton.propTypes = {
 
-         as: PropTypes.string.isRequired,
-         onclick: PropTypes.func.isRequired,
-         styleInline: PropTypes.object.isRequired,
-      
+        as: PropTypes.string.isRequired,
+        onclick: PropTypes.func.isRequired,
+        styleInline: PropTypes.object.isRequired,
 
-     }
-    
+
+    }

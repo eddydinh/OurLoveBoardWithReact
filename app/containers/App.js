@@ -40,7 +40,7 @@ class App extends Component {
       const {reducers,actions} = this.props;
       if(reducers.isForgotPassword) return (<PasswordForgetPage/>);
       else if(reducers.authUser) return(<Home /> );
-      else return(<LandingPage  changeTab = {actions.changeTab}  currentTabName = {reducers.tab} />)
+      else return(<LandingPage  changeTab = {actions.changeTab}  currentTabName = {reducers.tab} changeUserName={actions.changeUserName} />)
   }    
   render() {
 
@@ -57,7 +57,7 @@ class App extends Component {
   }
 }
 
-const LandingPage = (props)=>(<MainLogin changeTab={props.changeTab} currentTabName= {props.currentTabName}/>);
+const LandingPage = (props)=>(<MainLogin changeTab={props.changeTab} currentTabName= {props.currentTabName} changeUserName ={props.changeUserName}/>);
 
 const Home = ()=>(<HomePage />);
 

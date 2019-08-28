@@ -13,7 +13,7 @@ export default class Root extends Component {
     return (
       <Provider store={store}>
           <FirebaseContext.Provider value={new Firebase()}>
-        <App />
+                <App />
         </FirebaseContext.Provider>
       </Provider>
     );

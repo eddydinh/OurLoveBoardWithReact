@@ -1,0 +1,22 @@
+.AddButton {
+    font-size: 35px;
+    background: #ff5d5d;
+    color: white;
+    display: block;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin:auto;
+    
+
+
+}
+.AddButton:hover{
+    background: #d34c4c;
+    cursor: pointer;
+}
+.AddButton span {
+    position: relative;
+    top:-15px;
+    
+}

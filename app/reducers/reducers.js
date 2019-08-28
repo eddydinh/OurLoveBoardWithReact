@@ -15,6 +15,10 @@ const actionsMap = {
   [ActionTypes.IS_FP](state, action) {
     return  Object.assign({}, state, { isForgotPassword: action.isForgotPassword }) 
 }
+    ,
+  [ActionTypes.CHANGE_USER_NAME](state, action) {
+    return  Object.assign({}, state, { userName: action.userName }) 
+}
 }
 export default function reducers(state = initialState, action) {
   const reduceFn = actionsMap[action.type];
