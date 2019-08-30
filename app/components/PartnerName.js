@@ -1,22 +1,56 @@
 import React, { Component} from 'react';
 import PropTypes from 'prop-types';
-import style from './PartnerName.css';
 import AddPartnerButton from './AddPartnerButton';
 import EditScreen from './EditScreen';
 import { withFirebase } from '../components/Firebase';
-import * as StatusConstants from '../constants/StatusConstants.js'
-
+import * as StatusConstants from '../constants/StatusConstants.js';
+import HasPartnerScreen from './HasPartnerScreen.js';
+import MessageScreen from './MessageScreen.js';
 
 const INITIAL_STATE ={
     isEditScreenOpen: false,
     editScreenValue: '',
     error:null,
     users:[],
+    isBreakupScreenOpen:false,
+    partnerName: "Fetching your partner's name...",
 }
 class PartnerName extends Component {
     constructor(props){
         super(props);
          this.state = { ...INITIAL_STATE};
+    }
+    
+    componentDidMount(){
+        const{status} = this.props;
+          if(status){
+              this.getPartnerName(status.value);
+          }
+    }
+    
+    componentDidUpdate(){
+         const{status} = this.props;
+          if(status){
+               this.getPartnerName(status.value);
+          }
+    }
+    
+  
+    
+    getPartnerName = partnerId =>{
+        const {firebase} = this.props;
+                    this.listenerPartnerName = firebase.user(partnerId).once('value',
+                        (snapshot, context) => {
+                    
+                           const partnerName = (snapshot.val() && snapshot.val().username) || (snapshot.val() && snapshot.val().email)|| 'Anonymous';
+                     
+                        this.setState({partnerName:partnerName});
+                        
+                    
+                    
+
+                },
+            );
     }
     
      currentUserEmail = ()=>{
@@ -86,6 +120,7 @@ class PartnerName extends Component {
                                 }else{
                                     const {changeIsLoading} = this.props;
                                     changeIsLoading(false);
+                                    this.setState({isEditScreenOpen:false});
                                 } 
         });
     }
@@ -144,12 +179,78 @@ class PartnerName extends Component {
          
     }
     
-    isInvalidEmailAddress = s=>{
+    isInvalidEmailAddress = s =>{
          var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
          return !re.test(String(s).toLowerCase());
     }
     
+    
+    
+   openBreakupScreen = () =>{
+       this.setState({isBreakupScreenOpen: true});
+   }
    
+   closeBreakupScreen = () =>{
+       this.setState({isBreakupScreenOpen: false});
+   }
+    
+   youAreAlone = (partnerId) => {
+       const{authUser,firebase} = this.props;
+        firebase
+                          .user(authUser.uid)
+                          .update({
+                              hasPartner:null,
+                              isPending:null,
+                              hasRequest:null,
+                          }, (error)=>{
+                                if (error) {
+                                    console.log(error);
+                                } else {
+                                     firebase
+                                         .user(partnerId)
+                                         .update({
+                                             hasPartner: null,
+                                             isPending: null,
+                                             hasRequest: null,
+                                         }, (error) => {
+                                             if (error) {
+                                                console.log(error);
+                                             } else {
+                                                this.closeBreakupScreen();
+                                             }
+                                         });
+                                }
+        });
+     
+   }
+   
+      
+   youAreTaken = (partnerId) => {
+       const{authUser,firebase} = this.props;
+        firebase
+                          .user(authUser.uid)
+                          .update({
+                              hasPartner:partnerId
+                          }, (error)=>{
+                                if (error) {
+                                    console.log(error);
+                                } else {
+                                     firebase
+                                         .user(partnerId)
+                                         .update({
+                                             hasPartner: authUser.uid
+                                         }, (error) => {
+                                             if (error) {
+                                                console.log(error);
+                                             } else {
+                                                this.closeBreakupScreen();
+                                             }
+                                         });
+                                }
+        });
+     
+   }
+
       render() {
           
     
@@ -159,15 +260,39 @@ class PartnerName extends Component {
           
         
             if(status && status.status === StatusConstants.HAS_PARTNER){
-                return (<div>{`Has ${status.value} as partner`}</div>)
+                const {isBreakupScreenOpen} = this.state;
+                if(isBreakupScreenOpen){
+                   const partnerId = status.value;
+                   return(<MessageScreen yesFunction ={()=>{this.youAreAlone(partnerId);}} noFunction = {()=>{this.closeBreakupScreen();}} headerText ={`Are you sure you want to break up with your current partner?`}/>);
+                }else{
+                    const {partnerName} = this.state;
+                    
+                    return(<HasPartnerScreen onBreakup={()=>{this.openBreakupScreen();}} partnerName={partnerName}/>);
+                  
+                    
+                     
+                    
+                }
+               
             }
             else if (status && status.status === StatusConstants.HAS_REQUEST){
-                return(<div>{`Has ${status.value} as request`}</div>)
+              const partnerId = status.value;
+                  
+                return(<MessageScreen yesFunction ={()=>{this.youAreTaken(partnerId)}} noFunction = {()=>{this.youAreAlone(partnerId)}} headerText={`${this.state.partnerName} has sent you a request. Do you want to be his/her partner?`}/>)  
+                
+                
             }
                   
                  
             else if (status && status.status === StatusConstants.IS_PENDING){
-                return(<div>{`Has ${status.value} as pending`}</div>)
+                  const {isBreakupScreenOpen} = this.state;
+                if(isBreakupScreenOpen){
+                    const partnerId = status.value;
+                    return(<MessageScreen noFunction = {()=>{this.closeBreakupScreen()}} yesFunction={()=>{this.youAreAlone(partnerId)}} headerText={'Are you sure?'}/>)
+                }else{
+                  
+                return(<MessageScreen noFunction = {()=>{this.openBreakupScreen()}} noText={`CANCEL`} headerText={`A request has been sent to ${this.state.partnerName}. Once he/she has accepted, his/her name will appear here. Do you wish to cancel your request?`}/>)  
+                }
             }
                 
              else {

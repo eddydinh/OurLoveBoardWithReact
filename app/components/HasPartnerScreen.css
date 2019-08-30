@@ -1,0 +1,8 @@
+.breakupBtn{
+    position: relative;
+    float:right;
+    top:-35px;
+}
+.breakupBtn:hover{
+    cursor: pointer;
+}
