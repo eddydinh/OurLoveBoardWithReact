@@ -8,14 +8,14 @@ export default class AddPartnerButton extends Component {
    
     
       render() {
-      
+      const{onClick} = this.props;
           return (
-                <button className={style.AddButton}><span>+</span></button>
+                <button onClick= {onClick} className={style.AddButton}><span>+</span></button>
             );
       }
 }
 AddPartnerButton.propTypes ={
-    
+    onClick: PropTypes.func.isRequired,
 
   }
     

@@ -6,6 +6,8 @@ import style from './CoupleBar.css';
 import AddPartnerButton from './AddPartnerButton';
 import * as TodoActions from '../actions/actions';
 import UserName from './UserName';
+import PartnerName from './PartnerName';
+import LoadingScreen from './LoadingScreen';
 @connect(
   state => ({
     reducers: state.reducers
@@ -16,19 +18,22 @@ import UserName from './UserName';
   })
 )
 export default class CoupleBar extends Component {
-    
-   
-    
+//    componentDidMount(){
+//        const {actions} = this.props;
+//        actions.changeIsLoading(false);
+//    }
+//  
       render() {
        const {reducers,actions} = this.props;
  
+   
           return (
               <div>
               <table className={style.coupleBar}>
  <tbody>
   <tr>
-    <th><UserName name = {reducers.userName} changeUserName={actions.changeUserName}/></th>
-    <th><AddPartnerButton/></th> 
+    <th><UserName userName = {reducers.userName} changeUserName={actions.changeUserName}/></th>
+    <th>{reducers.isLoading && <LoadingScreen/>} <PartnerName status = {reducers.status} authUser = {reducers.authUser} changeIsLoading ={actions.changeIsLoading}/></th> 
   </tr>
               
 </tbody>

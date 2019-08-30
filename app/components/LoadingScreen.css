@@ -1,0 +1,92 @@
+        .loaderDiv {
+            width:49%;
+            height:96px;
+            background: rgba(255, 255, 255, 1);
+            z-index: 5000;
+            position: absolute;
+            top:105px;
+            left:50%;
+            font-weight: bold;
+/*            display: none;*/
+
+        }
+
+        .spinnerDiv {
+            position: absolute;
+            left: 40%;
+            margin: 10px 0 0 0;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .spinnerDiv p {
+            margin-top: 10px;
+            text-indent: -50px;
+        }
+
+        /* Center the loader */
+        .loader {
+
+            border: 10px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 10px solid #FF7964;
+            width: 20px;
+            height: 20px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Add animation to "page content" */
+        .animate-bottom {
+            position: relative;
+            -webkit-animation-name: animatebottom;
+            -webkit-animation-duration: 1s;
+            animation-name: animatebottom;
+            animation-duration: 1s
+        }
+
+        @-webkit-keyframes animatebottom {
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+
+            to {
+                bottom: 0px;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatebottom {
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+
+            to {
+                bottom: 0;
+                opacity: 1
+            }
+        }
+
+      

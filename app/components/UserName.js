@@ -1,6 +1,5 @@
 import React, { Component} from 'react';
 import PropTypes from 'prop-types';
-import style from './UserName.css';
 import EditButton from './EditButton';
 import EditScreen from './EditScreen';
 import { withFirebase } from '../components/Firebase';
@@ -17,9 +16,15 @@ class UserName extends Component {
          this.state = { ...INITIAL_STATE};
     }
     
+    
     displayEditScreen(isOpen){
           this.setState({  isEditScreenOpen: isOpen});
         
+    }
+    
+    componentDidMount(){
+        const {userName} = this.props;
+        this.setState({editScreenValue: userName});
     }
     
     editScreenOnSubmit = event =>{
@@ -48,16 +53,23 @@ class UserName extends Component {
         this.setState({  editScreenValue: event.target.value});
     }
     
+    editScreenOnClose = () =>{
+        this.setState({...INITIAL_STATE});
+        const {userName} = this.props;
+        this.setState({editScreenValue: userName});
+        this.displayEditScreen(false); 
+    }
+    
       render() {
-        const {name} = this.props;
+        const {userName} = this.props;
         const {isEditScreenOpen,editScreenValue,error} = this.state;
         const isInvalid = editScreenValue == '';
           if(isEditScreenOpen){
               return(
                 <div>
-                <EditScreen isInvalid={isInvalid} inputValue={editScreenValue} headerText={"Type in your new user name & submit"} onChange={this.editScreenOnChange} onClick={this.editScreenOnSubmit}/>
+                <EditScreen onClose ={()=>{this.editScreenOnClose();}} maxLength={20} isInvalid={isInvalid} inputValue={editScreenValue} headerText={"Type in your new user name & submit"} onChange={this.editScreenOnChange} onClick={this.editScreenOnSubmit} error ={error}/>
 
-                 {error && <p style={{textAlign:'center', color:'red'}}>{error.message}</p>}
+             
                  </div>
               );
               
@@ -65,13 +77,13 @@ class UserName extends Component {
           return (
               <div>
                <EditButton onClick = {()=>{this.displayEditScreen(true)}}/>
-               <div className={style.userNameText}>{name}</div>
+               <div style={{width:'auto'}}>{userName}</div>
               </div>
             );
       }
 }
 UserName.propTypes ={
-    name: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
     changeUserName: PropTypes.func.isRequired,
 
   }

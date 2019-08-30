@@ -74,6 +74,10 @@ class Form extends Component {
                           
                           changeUserName(username);
                           
+                      }).catch(error => {
+                          this.setState({
+                              error
+                          });
                       });
                           
                       })

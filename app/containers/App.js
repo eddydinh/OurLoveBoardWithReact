@@ -22,18 +22,48 @@ class App extends Component {
 
   
   componentDidMount() {
-    const {actions,reducers} = this.props;
-    this.listener = this.props.firebase.auth.onAuthStateChanged(
+    const {actions,reducers,firebase} = this.props;
+    this.listener = firebase.auth.onAuthStateChanged(
       authUser => {
-        authUser
-          ? actions.changeAuth({authUser})
-          : actions.changeAuth(null);
+        if (authUser) {
+            actions.changeAuth(authUser)
+            
+            this.listenerDb = firebase.user(authUser.uid).on('value',
+                (snapshot, context) => {
+                    if(snapshot.val().hasPartner) 
+                        actions.changeStatus({status:"hasPartner", value:snapshot.val().hasPartner});
+                
+                    else if (snapshot.val().hasRequest)     
+                        actions.changeStatus({status:"hasRequest", value:snapshot.val().hasRequest});
+                
+                    else if (snapshot.val().isPending) 
+                        actions.changeStatus({status:"isPending", value:snapshot.val().isPending});
+                
+                    else
+                        actions.changeStatus(null);
+                      
+                    
+                    
+
+                },
+            );
+        }
+        else{
+            actions.changeAuth(null);
+        }
+        
+        
           
       },
     );
+    
+    
+      
+    
   }
   componentWillUnmount() {
     this.listener();
+    this.listenerDb();
   }
     
   RenderMainSection (){

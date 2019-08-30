@@ -16,6 +16,15 @@ export function changeUserName(userName) {
   return { type: types.CHANGE_USER_NAME, userName};
 }
 
+export function changeIsLoading(isLoading) {
+  return { type: types.IS_LOADING, isLoading};
+}
+
+export function changeStatus(status) {
+  return { type: types.CHANGE_STATUS, status};
+}
+
+
 
 
 

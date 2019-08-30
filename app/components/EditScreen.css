@@ -28,3 +28,12 @@
     background-color: #cccccc;
     color: #666666;
 }
+.backBtn{
+    position: relative;
+    float:right;
+    top:-15px;
+}
+.backBtn:hover{
+    cursor: pointer;
+}
+.errorMsg{text-align:'center'; font-size: 10px;}

@@ -3,4 +3,6 @@ export const INIT_STATE = {
     authUser:null,
     isForgotPassword:false,
     userName:'',
+    isLoading:false,
+    status: null,
 };

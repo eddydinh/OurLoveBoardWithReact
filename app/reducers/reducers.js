@@ -19,6 +19,15 @@ const actionsMap = {
   [ActionTypes.CHANGE_USER_NAME](state, action) {
     return  Object.assign({}, state, { userName: action.userName }) 
 }
+     ,
+  [ActionTypes.IS_LOADING](state, action) {
+    return  Object.assign({}, state, { isLoading: action.isLoading }) 
+}
+   ,
+  [ActionTypes.CHANGE_STATUS](state, action) {
+    return  Object.assign({}, state, { status: action.status }) 
+}
+    
 }
 export default function reducers(state = initialState, action) {
   const reduceFn = actionsMap[action.type];
