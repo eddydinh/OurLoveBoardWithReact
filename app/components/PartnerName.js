@@ -13,7 +13,6 @@ const INITIAL_STATE ={
     error:null,
     users:[],
     isBreakupScreenOpen:false,
-    partnerName: "Fetching your partner's name...",
 }
 class PartnerName extends Component {
     constructor(props){
@@ -21,37 +20,8 @@ class PartnerName extends Component {
          this.state = { ...INITIAL_STATE};
     }
     
-    componentDidMount(){
-        const{status} = this.props;
-          if(status){
-              this.getPartnerName(status.value);
-          }
-    }
     
-    componentDidUpdate(){
-         const{status} = this.props;
-          if(status){
-               this.getPartnerName(status.value);
-          }
-    }
-    
-  
-    
-    getPartnerName = partnerId =>{
-        const {firebase} = this.props;
-                    this.listenerPartnerName = firebase.user(partnerId).once('value',
-                        (snapshot, context) => {
-                    
-                           const partnerName = (snapshot.val() && snapshot.val().username) || (snapshot.val() && snapshot.val().email)|| 'Anonymous';
-                     
-                        this.setState({partnerName:partnerName});
-                        
-                    
-                    
 
-                },
-            );
-    }
     
      currentUserEmail = ()=>{
          const {authUser} = this.props;
@@ -228,17 +198,21 @@ class PartnerName extends Component {
    youAreTaken = (partnerId) => {
        const{authUser,firebase} = this.props;
         firebase
-                          .user(authUser.uid)
+                          .user(partnerId)
                           .update({
-                              hasPartner:partnerId
+                              hasPartner:authUser.uid,
+                              isPending:null,
+                              hasRequest:null
                           }, (error)=>{
                                 if (error) {
                                     console.log(error);
                                 } else {
                                      firebase
-                                         .user(partnerId)
+                                         .user(authUser.uid)
                                          .update({
-                                             hasPartner: authUser.uid
+                                             hasPartner: partnerId,
+                                             isPending:null,
+                                             hasRequest:null
                                          }, (error) => {
                                              if (error) {
                                                 console.log(error);
@@ -263,10 +237,11 @@ class PartnerName extends Component {
                 const {isBreakupScreenOpen} = this.state;
                 if(isBreakupScreenOpen){
                    const partnerId = status.value;
+                                                           
                    return(<MessageScreen yesFunction ={()=>{this.youAreAlone(partnerId);}} noFunction = {()=>{this.closeBreakupScreen();}} headerText ={`Are you sure you want to break up with your current partner?`}/>);
                 }else{
-                    const {partnerName} = this.state;
-                    
+                    const {partnerName} = this.props;
+                  
                     return(<HasPartnerScreen onBreakup={()=>{this.openBreakupScreen();}} partnerName={partnerName}/>);
                   
                     
@@ -277,8 +252,8 @@ class PartnerName extends Component {
             }
             else if (status && status.status === StatusConstants.HAS_REQUEST){
               const partnerId = status.value;
-                  
-                return(<MessageScreen yesFunction ={()=>{this.youAreTaken(partnerId)}} noFunction = {()=>{this.youAreAlone(partnerId)}} headerText={`${this.state.partnerName} has sent you a request. Do you want to be his/her partner?`}/>)  
+                 
+                return(<MessageScreen yesFunction ={()=>{this.youAreTaken(partnerId)}} noFunction = {()=>{this.youAreAlone(partnerId)}} headerText={`${this.props.partnerName} has sent you a request. Do you want to be his/her partner?`}/>)  
                 
                 
             }
@@ -291,7 +266,7 @@ class PartnerName extends Component {
                     return(<MessageScreen noFunction = {()=>{this.closeBreakupScreen()}} yesFunction={()=>{this.youAreAlone(partnerId)}} headerText={'Are you sure?'}/>)
                 }else{
                   
-                return(<MessageScreen noFunction = {()=>{this.openBreakupScreen()}} noText={`CANCEL`} headerText={`A request has been sent to ${this.state.partnerName}. Once he/she has accepted, his/her name will appear here. Do you wish to cancel your request?`}/>)  
+                return(<MessageScreen noFunction = {()=>{this.openBreakupScreen()}} noText={`CANCEL`} headerText={`A request has been sent to ${this.props.partnerName}. Once he/she has accepted, his/her name will appear here. Do you wish to cancel your request?`}/>)  
                 }
             }
                 
@@ -332,6 +307,7 @@ class PartnerName extends Component {
 }
 PartnerName.propTypes ={
     changeIsLoading: PropTypes.func.isRequired,
+    
 
   }
 export default withFirebase(PartnerName);

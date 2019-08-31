@@ -5,4 +5,6 @@ export const INIT_STATE = {
     userName:'',
     isLoading:false,
     status: null,
+    partnerName:'Fetching your partner\'s name...',
+    
 };

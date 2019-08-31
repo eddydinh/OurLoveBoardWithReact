@@ -25,6 +25,15 @@ export function changeStatus(status) {
 }
 
 
+export function changePartnerName(partnerName) {
+  return { type: types.CHANGE_PARTNERNAME, partnerName};
+}
+
+
+
+
+
+
 
 
 

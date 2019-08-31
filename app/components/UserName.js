@@ -22,10 +22,7 @@ class UserName extends Component {
         
     }
     
-    componentDidMount(){
-        const {userName} = this.props;
-        this.setState({editScreenValue: userName});
-    }
+
     
     editScreenOnSubmit = event =>{
         const {editScreenValue} = this.state;

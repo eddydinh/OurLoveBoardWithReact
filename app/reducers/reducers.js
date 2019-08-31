@@ -27,7 +27,10 @@ const actionsMap = {
   [ActionTypes.CHANGE_STATUS](state, action) {
     return  Object.assign({}, state, { status: action.status }) 
 }
-    
+      ,
+  [ActionTypes.CHANGE_PARTNERNAME](state, action) {
+    return  Object.assign({}, state, { partnerName: action.partnerName }) 
+}
 }
 export default function reducers(state = initialState, action) {
   const reduceFn = actionsMap[action.type];

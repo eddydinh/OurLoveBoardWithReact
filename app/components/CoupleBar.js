@@ -33,7 +33,7 @@ export default class CoupleBar extends Component {
  <tbody>
   <tr>
     <th><UserName userName = {reducers.userName} changeUserName={actions.changeUserName}/></th>
-    <th>{reducers.isLoading && <LoadingScreen/>} <PartnerName status = {reducers.status} authUser = {reducers.authUser} changeIsLoading ={actions.changeIsLoading}/></th> 
+    <th>{reducers.isLoading && <LoadingScreen/>} <PartnerName partnerName={reducers.partnerName} status = {reducers.status} authUser = {reducers.authUser} changeIsLoading ={actions.changeIsLoading}/></th> 
   </tr>
               
 </tbody>
@@ -43,8 +43,5 @@ export default class CoupleBar extends Component {
             );
       }
 }
-CoupleBar.propTypes ={
-  
 
-  }
     
