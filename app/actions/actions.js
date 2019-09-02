@@ -30,6 +30,24 @@ export function changePartnerName(partnerName) {
 }
 
 
+export function changeCanvasData(canvasData) {
+  return { type: types.CHANGE_CANVASDATA, canvasData};
+}
+
+export function changeBrushColor(brushColor) {
+  return { type: types.CHANGE_BRUSHCOLOR, brushColor};
+}
+
+
+export function changeBrushSize(brushSize) {
+  return { type: types.CHANGE_BRUSHSIZE, brushSize};
+}
+
+
+
+
+
+
 
 
 

@@ -52,7 +52,7 @@ class PartnerName extends Component {
         const currentId = this.currentUserId();
         const {firebase} = this.props;
         return firebase.user(requestUId).once('value').then(snapshot => {
-            const hasSomeoneElse= (snapshot.val() && snapshot.val().hasPartner) ||(snapshot.val() && snapshot.val().isPending) || (snapshot.val() && snapshot.val().hasRequest) ;
+            const hasSomeoneElse= (snapshot.val() && snapshot.val().status);
             
             
             if(!hasSomeoneElse){
@@ -70,7 +70,7 @@ class PartnerName extends Component {
     setRequest = (yourId, partnerId) =>{
         const {firebase} = this.props;
         firebase.user(partnerId).update({
-                              hasRequest:yourId
+                             status:{status:'hasRequest',value:yourId}
                           }, (error)=>{
                                 if (error) {
                                    this.displayError(error);
@@ -83,7 +83,7 @@ class PartnerName extends Component {
     setPending = (yourId, partnerId) =>{
         const {firebase,authUser} = this.props;
          firebase.user(yourId).update({
-                              isPending:partnerId
+                              status:{status:'isPending',value:partnerId}
                           }, (error)=>{
                                 if (error) {
                                     this.displayError(error);
@@ -169,9 +169,8 @@ class PartnerName extends Component {
         firebase
                           .user(authUser.uid)
                           .update({
-                              hasPartner:null,
-                              isPending:null,
-                              hasRequest:null,
+                              status:null,
+                              canvasData:null
                           }, (error)=>{
                                 if (error) {
                                     console.log(error);
@@ -179,9 +178,8 @@ class PartnerName extends Component {
                                      firebase
                                          .user(partnerId)
                                          .update({
-                                             hasPartner: null,
-                                             isPending: null,
-                                             hasRequest: null,
+                                             status:null,
+                                             canvasData:null
                                          }, (error) => {
                                              if (error) {
                                                 console.log(error);
@@ -200,9 +198,7 @@ class PartnerName extends Component {
         firebase
                           .user(partnerId)
                           .update({
-                              hasPartner:authUser.uid,
-                              isPending:null,
-                              hasRequest:null
+                              status:{status:'hasPartner',value:authUser.uid}
                           }, (error)=>{
                                 if (error) {
                                     console.log(error);
@@ -210,9 +206,7 @@ class PartnerName extends Component {
                                      firebase
                                          .user(authUser.uid)
                                          .update({
-                                             hasPartner: partnerId,
-                                             isPending:null,
-                                             hasRequest:null
+                                             status:{status:'hasPartner',value:partnerId}
                                          }, (error) => {
                                              if (error) {
                                                 console.log(error);

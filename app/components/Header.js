@@ -10,7 +10,7 @@ export default class Header extends Component {
     
    
     return (
-      <div style={{background:'#FFB9B7',height: 100 + 'px'}}>
+      <div style={{background:'#FFB9B7',height: 100 + 'px',color:'#1C2C35'}}>
         <h1>our love board</h1>
         
       </div>

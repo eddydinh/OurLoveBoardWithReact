@@ -1,44 +1,47 @@
 import React, { Component} from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as TodoActions from '../actions/actions';
+import { withFirebase } from '../components/Firebase';
 import SignOutButton from './SignOut';
 import CoupleBar from './CoupleBar';
 import ButtonArray from './ButtonArray';
 import CanvasDraw from "react-canvas-draw";
 
-const INITIAL_STATE ={
-    color: '#FF7964',
-    brushSize: 5,
- 
-}
 
-export default class HomePage extends Component {
-       constructor(props){
-      
-        super(props);
-        this.state = INITIAL_STATE
-        
-      
-        
-        
-        
-    }
+
+@connect(
+  state => ({
+    reducers: state.reducers
+    
+  }),
+  dispatch => ({
+    actions: bindActionCreators(TodoActions, dispatch)
+  })
+)
+class HomePage extends Component {
+       
       
       onColorChange = event=>{
-          this.setState({color:event.target.value});
-        
-          event.preventDefault;
+         const{actions} = this.props;
+         actions.changeBrushColor(event.target.value);
+          
+          event.preventDefault();
 }
       
       onBrushSizeChange = event=>{
-          this.setState({brushSize:event.target.value});
+           const{actions} = this.props;
+         actions.changeBrushSize(event.target.value);
         
-          event.preventDefault;
+          event.preventDefault();
 }
       
       onClear = ()=>{
           const{thisCanvas} = this;
           if(thisCanvas){
               thisCanvas.clear();
+               
           }
       }
       
@@ -46,21 +49,53 @@ export default class HomePage extends Component {
             const{thisCanvas} = this;
           if(thisCanvas){
               thisCanvas.undo();
+              
           }
+      }
+     loadCurrentCanvasToDb = () =>{
+       const {reducers,firebase} = this.props;
+       const yourId = reducers.authUser.uid;
+       const partnerId = reducers.status.value;
+       const canvasData = this.thisCanvas.getSaveData();
+      
+        firebase
+                          .user(partnerId)
+                          .update({
+                                canvasData: canvasData
+                          }, (error)=>{
+                                if (error) {
+                                    console.log(error);
+                                } else {
+                                     firebase
+                                         .user(yourId)
+                                         .update({
+                                             canvasData: canvasData
+                                         }, (error) => {
+                                             if (error) {
+                                                console.log(error);
+                                             }
+                                         });
+                                }
+        });
+      
+  
       }
       render() {
            
-       const {status} = this.props;
+       const {status,reducers} = this.props;
   
           return (
               <div>
             <CoupleBar/>
               
-            {status && status == "hasPartner" && <CanvasDraw ref={canvasDraw =>{this.thisCanvas = canvasDraw}} canvasHeight="300px" canvasWidth="100%" brushColor={this.state.color}  brushRadius={this.state.brushSize} hideGrid={true}/> }
               
-              {<ButtonArray onUndo={this.onUndo} onClear={this.onClear} status={status} color={this.state.color} brushSize={this.state.brushSize} onColorChange={this.onColorChange} onBrushSizeChange={this.onBrushSizeChange}/>}
+            {status && status == "hasPartner" && <div> <CanvasDraw ref={canvasDraw =>{this.thisCanvas = canvasDraw}} saveData={reducers.canvasData} canvasHeight="300px" canvasWidth="100%" brushColor={reducers.brushColor}  brushRadius={parseInt(reducers.brushSize)} hideGrid={true}/> </div> }
+            
+              
+              {<ButtonArray onSave = {this.loadCurrentCanvasToDb} onUndo={this.onUndo} onClear={this.onClear} status={status} brushColor={reducers.brushColor} brushSize={parseInt(reducers.brushSize)} onColorChange={this.onColorChange} onBrushSizeChange={this.onBrushSizeChange}/>}
            
           
           </div>);
       }
 }
+export default withFirebase(HomePage);

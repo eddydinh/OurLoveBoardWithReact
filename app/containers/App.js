@@ -33,30 +33,29 @@ class App extends Component {
             
             this.listenerDb = firebase.user(authUser.uid).on('value',
                 (snapshot, context) => {
-                    if(snapshot.val().hasPartner) {
-                        actions.changeStatus({status:"hasPartner", value:snapshot.val().hasPartner});
-                        this.getPartnerName(snapshot.val().hasPartner);
-                    }
                 
-                    else if (snapshot.val().hasRequest)   {  
-                        actions.changeStatus({status:"hasRequest", value:snapshot.val().hasRequest});
-                        this.getPartnerName(snapshot.val().hasRequest);
-                        
-                    }
+                if(snapshot.val().canvasData){
+                  
+                    actions.changeCanvasData(snapshot.val().canvasData);
+                }
                 
-                    else if (snapshot.val().isPending) {
-                        actions.changeStatus({status:"isPending", value:snapshot.val().isPending});
-                        this.getPartnerName(snapshot.val().isPending);
-                    }
-                
-                    else
-                        actions.changeStatus(null);
-                      
+                if(snapshot.val().status) {
+                    
+                    actions.changeStatus(snapshot.val().status);
+                    this.getPartnerName(snapshot.val().status.value);
                     
                     
-
+                                           
+                }else{
+                     actions.changeStatus(null);
+                }
+     
+           
+            
+                
                 },
             );
+           
         }
         else{
             actions.changeAuth(null);
@@ -85,7 +84,7 @@ class App extends Component {
     
 getPartnerName = partnerId =>{
         const {firebase,actions} = this.props;
-                    this.listenerPartnerName = firebase.user(partnerId).once('value',
+                 return firebase.user(partnerId).once('value',
                         (snapshot, context) => {
                     
                            const partnerName = (snapshot.val() && snapshot.val().username) || (snapshot.val() && snapshot.val().email)|| 'Anonymous';

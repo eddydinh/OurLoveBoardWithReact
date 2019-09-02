@@ -31,6 +31,21 @@ const actionsMap = {
   [ActionTypes.CHANGE_PARTNERNAME](state, action) {
     return  Object.assign({}, state, { partnerName: action.partnerName }) 
 }
+    
+     ,
+  [ActionTypes.CHANGE_CANVASDATA](state, action) {
+    return  Object.assign({}, state, {canvasData: action.canvasData }) 
+}
+     
+     ,
+  [ActionTypes.CHANGE_BRUSHCOLOR](state, action) {
+    return  Object.assign({}, state, {brushColor: action.brushColor}) 
+}
+     
+     ,
+  [ActionTypes.CHANGE_BRUSHSIZE](state, action) {
+    return  Object.assign({}, state, {brushSize: action.brushSize }) 
+}
 }
 export default function reducers(state = initialState, action) {
   const reduceFn = actionsMap[action.type];

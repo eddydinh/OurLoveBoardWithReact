@@ -6,5 +6,9 @@ export const INIT_STATE = {
     isLoading:false,
     status: null,
     partnerName:'Fetching your partner\'s name...',
+    canvasData:null,
+    brushColor: '#FFB9B7',
+    brushSize: 5,
+ 
     
 };
