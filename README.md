@@ -21,7 +21,7 @@ The example is edited from [Redux](https://github.com/rackt/redux) TodoMVC examp
 
 #### Popup
 
-![Popup](./chrome/assets/img/examplegif.gif)
+![Popup](./extensionPromoImg/examplegif.gif)
 
 The `reducers` state will be saved to `chrome.storage.local`.
 

@@ -1,5 +1,5 @@
 {
-  "version": "0.0.0",
+  "version": "1",
   "name": "OurLoveBoard",
   "manifest_version": 2,
   "description": "Write messages to your loved one",
@@ -20,4 +20,4 @@
   },
   "permissions": [ "contextMenus", "tabs", "storage", "https://github.com/*" ],
   "content_security_policy": "default-src 'self'; script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'; connect-src 'self' wss://*.firebaseio.com https://www.googleapis.com https://securetoken.googleapis.com; style-src * 'unsafe-inline'; img-src 'self' data:; "
-
+}
